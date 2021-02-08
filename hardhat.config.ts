@@ -1,4 +1,5 @@
 import "@nomiclabs/hardhat-waffle";
+import "@openzeppelin/hardhat-upgrades";
 import "@nomiclabs/hardhat-ethers";
 import * as dotenv from 'dotenv';
 import { HardhatUserConfig } from "hardhat/config";
