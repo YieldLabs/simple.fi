@@ -105,3 +105,6 @@ dist
 
 .env
 cache/
+
+artifacts/
+.vscode/
