@@ -10,7 +10,7 @@ dotenv.config();
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   solidity: {
-    version: "0.8.1",
+    version: "0.8.2",
     settings: {
       optimizer: {
         enabled: true,
@@ -19,12 +19,9 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    localhost: {
-      url: "http://127.0.0.1:8545",
-    },
     hardhat: {
       forking: {
-        url: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
+        url: process.env.ALCHEMY_MAINNET_RPC_URL,
       },
     },
   },

@@ -6,7 +6,13 @@ describe("PriceConsumerV3", function () {
 
   beforeEach(async () => {
     let PriceConsumerV3 = await ethers.getContractFactory("PriceConsumerV3");
-    priceConsumerV3 = await PriceConsumerV3.deploy();
+    /**
+     * Network: Mainnet
+     * Aggregator: USDT/USD
+     * Address: 0x3E7d1eAB13ad0104d2750B8863b489D65364e32D
+     */
+    let priceAddr = "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D";
+    priceConsumerV3 = await PriceConsumerV3.deploy(priceAddr);
 
     await priceConsumerV3.deployed();
   });
