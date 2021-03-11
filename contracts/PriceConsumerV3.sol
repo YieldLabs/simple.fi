@@ -1,4 +1,4 @@
-pragma solidity 0.8.2;
+pragma solidity >=0.7.0;
 
 import "@chainlink/contracts/src/v0.7/interfaces/AggregatorV3Interface.sol";
 
@@ -17,7 +17,7 @@ contract PriceConsumerV3 {
             uint256 timeStamp,
             uint80 answeredInRound
         ) = priceFeed.latestRoundData();
-        require(timeStamp > 0);
+        require(timeStamp > 0, "Round not complete");
 
         return price;
     }
