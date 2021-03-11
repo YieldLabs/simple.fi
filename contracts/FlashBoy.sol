@@ -6,7 +6,7 @@ import "./interfaces/IUniswapV2Pair.sol";
 import "./interfaces/IUniswapV2Factory.sol";
 import "./interfaces/IERC20.sol";
 
-contract Arbiter {
+contract FlashBoy {
     address factory;
     uint256 constant deadline = 10 days;
     IUniswapV2Router02 router;
@@ -14,6 +14,23 @@ contract Arbiter {
     constructor(address _factory, address _router) public {
         factory = _factory;
         router = IUniswapV2Router02(_router);
+    }
+
+    function start(
+        address token0,
+        address token1,
+        uint256 amount0,
+        uint256 amount1
+    ) external {
+        address pair = IUniswapV2Factory(factory).getPair(token0, token1);
+        require(pair != address(0));
+
+        IUniswapV2Pair(pair).swap(
+            amount0,
+            amount1,
+            address(this),
+            bytes("not empty")
+        );
     }
 
     function uniswapV2Call(
@@ -30,7 +47,7 @@ contract Arbiter {
 
         require(
             msg.sender == UniswapV2Library.pairFor(factory, token0, token1),
-            "Unauthorized"
+            "FLASHBOY: Unauthorized"
         );
 
         require(_amount0 == 0 || _amount1 == 0);
