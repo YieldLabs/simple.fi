@@ -5,11 +5,12 @@ import "./interfaces/IUniswapV2Router02.sol";
 import "./interfaces/IUniswapV2Pair.sol";
 import "./interfaces/IUniswapV2Factory.sol";
 import "./interfaces/IERC20.sol";
+import "./interfaces/IUniswapV2Callee.sol";
 
-contract FlashBoy {
-    address factory;
-    uint256 constant deadline = 10 days;
-    IUniswapV2Router02 router;
+contract FlashBoy is IUniswapV2Callee {
+    address immutable factory;
+    uint256 constant deadline = 10 minutes;
+    IUniswapV2Router02 immutable router;
 
     constructor(address _factory, address _router) public {
         factory = _factory;
@@ -38,7 +39,7 @@ contract FlashBoy {
         uint256 _amount0,
         uint256 _amount1,
         bytes calldata _data
-    ) external {
+    ) external override {
         address[] memory path = new address[](2);
         uint256 amountToken = _amount0 == 0 ? _amount1 : _amount0;
 
@@ -73,10 +74,9 @@ contract FlashBoy {
             deadline
         )[1];
 
-        IERC20Uniswap otherToken = IERC20Uniswap(
-            _amount0 == 0 ? token0 : token1
-        );
-        otherToken.transfer(msg.sender, amountRequired);
-        otherToken.transfer(_sender, amountReceived - amountRequired);
+        assert(amountReceived > amountRequired);
+
+        token.transfer(msg.sender, amountRequired);
+        token.transfer(_sender, amountReceived - amountRequired);
     }
 }
