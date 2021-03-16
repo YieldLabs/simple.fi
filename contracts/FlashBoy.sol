@@ -1,11 +1,11 @@
-pragma solidity >=0.7.0;
+pragma solidity >=0.7.6;
 
+import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
+import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
+import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
+import "@uniswap/v2-core/contracts/interfaces/IERC20.sol";
+import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Callee.sol";
 import "./libraries/UniswapV2Library.sol";
-import "./interfaces/IUniswapV2Router02.sol";
-import "./interfaces/IUniswapV2Pair.sol";
-import "./interfaces/IUniswapV2Factory.sol";
-import "./interfaces/IERC20.sol";
-import "./interfaces/IUniswapV2Callee.sol";
 
 contract FlashBoy is IUniswapV2Callee {
     address immutable factory;
@@ -56,7 +56,7 @@ contract FlashBoy is IUniswapV2Callee {
         path[0] = _amount0 == 0 ? token1 : token0;
         path[1] = _amount0 == 0 ? token0 : token1;
 
-        IERC20Uniswap token = IERC20Uniswap(_amount0 == 0 ? token1 : token0);
+        IERC20 token = IERC20(_amount0 == 0 ? token1 : token0);
 
         token.approve(address(router), amountToken);
 
