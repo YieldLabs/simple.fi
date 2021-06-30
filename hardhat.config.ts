@@ -20,6 +20,7 @@ const config: HardhatUserConfig = {
     },
     matic: {
       url: "https://rpc-mainnet.matic.network",
+      accounts: [PRIVATE_KEY],
     },
     hardhat: {
       forking: {
@@ -37,7 +38,7 @@ const config: HardhatUserConfig = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200,
+        runs: 500,
       },
     },
   },
